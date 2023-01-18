@@ -1,6 +1,6 @@
-import axios from "axios";
+// import axios from "axios";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { RxExit } from "react-icons/rx";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 
@@ -22,34 +22,38 @@ export default function Home() {
                 <Lista>
                     <Item>
                         <p>30/11</p>
-                        <h3>Almoço mãe</h3>
-                        <h4>39,90</h4>
+                        <h1>Almoço mãe</h1>
+                        <h2>39,90</h2>
                     </Item>
                     <Item>
                         <p>27/11</p>
-                        <h3>Mercado</h3>
-                        <h4>542,54</h4>
+                        <h1>Mercado</h1>
+                        <h2>542,54</h2>
                     </Item>
                     <Item>
                         <p>20/11</p>
-                        <h3>Salário</h3>
-                        <h4>3000,00</h4>
+                        <h1>Salário</h1>
+                        <h3>3000,00</h3>
                     </Item>
                 </Lista>
                 <Total>
-                    <h3>SALDO:</h3>
+                    <h1>SALDO:</h1>
                     <p>2.417,56</p>
                 </Total>
             </Dados>
             <Footer>
-                <ButtonEntrada>
+                <Button onClick={() => navigate('/nova-entrada')}>
+                    <Icon>
                     <AiOutlinePlusCircle />
+                    </Icon>
                     <p>Nova<br /> entrada</p>
-                </ButtonEntrada>
-                <ButtonSaida>
+                </Button>
+                <Button onClick={() => navigate('/nova-saida')}>
+                    <Icon>
                     <AiOutlineMinusCircle />
+                    </Icon>
                     <p>Nova<br /> saida</p>
-                </ButtonSaida>
+                </Button>
             </Footer>
 
 
@@ -106,25 +110,87 @@ const Dados = styled.div`
 
 
 const Lista = styled.div`
-
+    width: 100%;
+    line-height: 25px;
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    
+    
+      
 `
 
 const Item = styled.div`
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    p{
+        color: #C6C6C6;
+    }
+    h1{
+        width: 58%;
+        
+    }
+    h2{
+        color: red;
+    }
+    h3 {
+        color: green;
+    }
 `
+
+
 const Total = styled.div`
+    width: 100%;
+    height: 10%;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    
+    p{
+        font-weight: 400;
+        color: green;
+    }
 
 `
 
 const Footer = styled.div`
-
+    width: 90%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `
 
-const ButtonEntrada = styled.div`
-
+const Button = styled.div`
+    width: 48%;
+    height: 85%;
+    font-family: 'Raleway', sans-serif;
+    font-size: 25px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #A328D6;
+    border: 2px;
+    border-radius: 5px;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: start;
+    cursor: pointer;
+    
+    p{
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 20px;
+    }
 `
 
-const ButtonSaida = styled.div`
-
-`
 
