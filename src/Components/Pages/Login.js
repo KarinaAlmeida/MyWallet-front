@@ -1,14 +1,44 @@
 // import axios from "axios";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { ThreeDots } from  'react-loader-spinner';
+import axios from "axios";
+import UserContext from "../../Contexts/UserContext";
+import { useContext, useState } from "react"
+
+
 
 
 
 export default function Login () {
+    
+    const [login, setLogin] = useState({email:'', senha:''});
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const {setUser} = useContext(UserContext);
 
 
+    function entrar(event) {
+        event.preventDefault();
+        setLoading(true);
 
+      
+        const promise = axios.post(`${process.env.REACT_APP_API_URL}`, login)
+        promise.then((res) => {
+            const { id, nome, token } = res.data
+            setLoading(false);
+            setUser({id, nome, token});
+
+            navigate("/home");
+        });
+        promise.catch((err) => {
+            console.log(err.response.data)
+            setLoading(false);
+
+        
+        })
+    
+    }
         return (
             <Container>
     
@@ -16,31 +46,40 @@ export default function Login () {
                  <Title> MyWallet</Title>
                 </div>
     
-            <form>
+            <form onSubmit={entrar}>
                 <Inputs>
                     <input 
                     type="email" 
                     placeholder="E-mail" 
-                    // value={login.email} 
-                    // onChange={(event) => setLogin({...login, email:event.target.value})} 
-                    // required
-                    // disabled={loading}
+                    value={login.email} 
+                    onChange={(event) => setLogin({...login, email:event.target.value})} 
+                    required
+                    disabled={loading}
     
                     />
                     <input 
                     type="password" 
                     placeholder="Senha" 
-                    // value={login.password} 
-                    // onChange={(event) => setLogin({...login, password:event.target.value})} 
-                    // required
-                    // disabled={loading}
+                    value={login.senha} 
+                    onChange={(event) => setLogin({...login, senha:event.target.value})} 
+                    required
+                    disabled={loading}
     
                     />
                 </Inputs>
     
-                <button type='submit'>
-                        Entrar
-                    </button>            
+                <button type='submit' disabled={loading}>
+                    {loading === false ? 'Entrar' :  <ThreeDots
+                        height="20"
+                        width="50"
+                        radius="9"
+                        color="white"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true} 
+                        />}
+                </button>          
             </form>
             <Link to={'/cadastro'}>
                 <p>Primeira vez? Cadastre-se!</p>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 
+import UserContext from '../Contexts/UserContext';
 import GlobalStyle from '../styles/GlobalStyle';
 import Login from "./Pages/Login";
 import Cadastro from "./Pages/Cadastro";
@@ -11,8 +12,17 @@ import Entrada from "./Pages/Entrada";
 import Saida from "./Pages/Saida";
 
 export default function App() {
+
+  const [user, setUser] = useState('');
+
+  // const config = {headers: {Authorization: `Bearer ${user.token}`}};
+
   return (
-  
+    <>
+  <UserContext.Provider value={{
+        user, setUser,
+        // config
+      }}>
     <Container>
             <BrowserRouter>
             <GlobalStyle/>
@@ -29,6 +39,8 @@ export default function App() {
             </BrowserRouter>
 
         </Container>
+        </UserContext.Provider>
+        </>
   
   );
 }

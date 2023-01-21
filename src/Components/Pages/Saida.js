@@ -1,6 +1,6 @@
 // import axios from "axios";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 export default function Saida () {
     const navigate = useNavigate();

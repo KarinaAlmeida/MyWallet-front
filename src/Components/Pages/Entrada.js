@@ -1,6 +1,7 @@
 // import axios from "axios";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Entrada () {
     const navigate = useNavigate();
@@ -16,10 +17,12 @@ export default function Entrada () {
                 <input 
                     type="number" 
                     placeholder="Valor" 
+                    
                 />
                  <input 
                     type="text" 
                     placeholder="Descrição" 
+
                 />
         </Inputs>
 
@@ -57,14 +60,12 @@ const Container = styled.div`
 `;
 
 const Titulo = styled.div`
-    width: 90%%;
+    width: 90%;
     margin:25px;
     color: #FFFFFF;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    font-size: 28px;
-    display: ;
-  
+    font-size: 28px; 
 `
 
 const Inputs = styled.div`

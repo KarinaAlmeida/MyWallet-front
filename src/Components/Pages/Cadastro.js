@@ -1,13 +1,36 @@
 import axios from "axios";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react"
+// import {UserContext} from "../../Contexts/UserContext";
 
 
 
-export default function Login () {
+
+
+export default function Cadastro () {
+    const [login, setLogin] = useState({ nome: "", email: "", senha: "", confirmarSenha:"" })
     const navigate = useNavigate();
+   
 
 
+    function cadastrar(event) {
+        event.preventDefault();
+        
+
+      
+        const promise = axios.post(`${process.env.REACT_APP_API_URL}cadastro`, login)
+        promise.then((res) => {
+            
+            navigate("/");
+        });
+        promise.catch((err) => {
+            console.log(err.response.data)
+            
+
+        
+        })
+    }
 
         return (
             <Container>
@@ -16,39 +39,43 @@ export default function Login () {
                  <Title> MyWallet</Title>
                 </div>
     
-            <form>
+            <form onSubmit={cadastrar}>
                 <Inputs>
                     <input 
                     type="text" 
                     placeholder="Nome" 
+                    value={login.nome} 
+                    onChange={(event) => setLogin({...login, nome:event.target.value})} 
+                    required
+               
                     />
                     
                     <input 
                     type="email" 
                     placeholder="E-mail" 
-                    // value={login.email} 
-                    // onChange={(event) => setLogin({...login, email:event.target.value})} 
-                    // required
-                    // disabled={loading}
+                    value={login.email} 
+                    onChange={(event) => setLogin({...login, email:event.target.value})} 
+                    required
+                   
     
                     />
                     <input 
                     type="password" 
                     placeholder="Senha" 
-                    // value={login.password} 
-                    // onChange={(event) => setLogin({...login, password:event.target.value})} 
-                    // required
-                    // disabled={loading}
+                    value={login.senha} 
+                    onChange={(event) => setLogin({...login, senha:event.target.value})} 
+                    required
+                   
     
                     />
 
                     <input 
                     type="password" 
                     placeholder="Confirme a senha" 
-                    // value={login.password} 
-                    // onChange={(event) => setLogin({...login, password:event.target.value})} 
-                    // required
-                    // disabled={loading}
+                    value={login.confirmarSenha} 
+                    onChange={(event) => setLogin({...login, confirmarSenha:event.target.value})} 
+                    required
+                   
     
                     />
 
