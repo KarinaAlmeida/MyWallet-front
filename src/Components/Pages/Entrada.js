@@ -1,10 +1,34 @@
-// import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../Contexts/UserContext";
+import { useContext, useState } from "react";
+import axios from "axios";
 
 
 export default function Entrada () {
     const navigate = useNavigate();
+    const {user} = useContext(UserContext);
+    const [valor, setValor] = useState("")
+    const [descrição, setDescrição] = useState("")
+
+
+    function novaEntrada(event){
+        event.preventDefault()
+        const body = {valor, descrição};
+        const config= { headers: { Authorization: `Bearer ${user.token}`
+    }
+} 
+
+    console.log(user)
+    const promise = axios.post(`${process.env.REACT_APP_API_URL}nova-entrada`, body, config);
+    promise.then((res) => {
+        alert ("DEU CERTO")
+        navigate("/home")            
+    });
+    promise.catch((erro) => alert("Opa! Deu bug, tente novamente!"));
+
+}
+
 
 
     return(
@@ -13,26 +37,40 @@ export default function Entrada () {
             <h1>Nova Entrada</h1>
         </Titulo>
 
+    <form onSubmit={novaEntrada}>
         <Inputs>
+           
                 <input 
                     type="number" 
-                    placeholder="Valor" 
+                    placeholder="Valor"
+                    value={valor} 
+                    onChange={(event) => setValor (event.target.value)} 
+                    required 
                     
                 />
                  <input 
                     type="text" 
                     placeholder="Descrição" 
+                    value={descrição} 
+                    onChange={(event) => setDescrição (event.target.value)} 
+                    required 
+
+                    
 
                 />
-        </Inputs>
+                        <button type='submit'>
+                            Salvar Entrada
+                        </button> 
 
-        <button type='submit' onClick={() => navigate('/home')}>
-                        Salvar Entrada
-                    </button>            
+               
+        </Inputs>
+        </form>
+                  
     </Container>
 
     )
 }
+
 
 
 const Container = styled.div`
@@ -82,4 +120,15 @@ const Inputs = styled.div`
         font-size: 20px;
         
         }
+        /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
   `

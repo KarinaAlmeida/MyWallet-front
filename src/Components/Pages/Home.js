@@ -1,17 +1,53 @@
-// import axios from "axios";
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from "styled-components";
 import {useNavigate } from "react-router-dom";
 import { RxExit } from "react-icons/rx";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import axios from "axios";
+import UserContext from "../../Contexts/UserContext";
+import { useContext, useState, useEffect } from "react"
+
 
 
 export default function Home() {
     const navigate = useNavigate();
+    const {user} = useContext(UserContext);
+    const [dinheiro, setDinheiro] = useState([]);  
+    const [saldo, setSaldo] = useState(0) //por setsaldo
+
+    useEffect(() => {
+        const header = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+            
+        }
+
+        const promise = axios.get(`${process.env.REACT_APP_API_URL}home`, header);
+        promise.then((res) => {
+            let valores= 0;
+
+            res.data.map((i)=>{
+                if (i.type==="entrada"){
+                    return valores += i.valor
+                }else{
+                    return valores -= i.valor
+                }
+            })
+
+            setDinheiro(res.data);
+            setSaldo(valores);
+        })
+        promise.catch((err) => console.log(err.response.data.message))
+
+    },[])
+
+    
 
     return (
         <Container>
              <Titulo>
-                <h1>Olá, Fulano</h1>
+                <h1>Olá, {user.checkUser.nome}</h1>
 
                 <Icon onClick={() => navigate('/')}>
                 <RxExit />
@@ -20,25 +56,21 @@ export default function Home() {
             </Titulo>
             <Dados>
                 <Lista>
-                    <Item>
-                        <p>30/11</p>
-                        <h1>Almoço mãe</h1>
-                        <h2>39,90</h2>
+                    {dinheiro.length=== 0 ? (<SemRegistro><p>Não há registros de entrada ou saída</p></SemRegistro>) :
+                    (dinheiro.map ((i) =>
+                      <Item type={i.type}>
+                        <p>{i.data}</p>
+                        <h1>{i.descrição}</h1>
+                        <h2>{i.valor.toFixed(2).replace(".", ",")}</h2>
                     </Item>
-                    <Item>
-                        <p>27/11</p>
-                        <h1>Mercado</h1>
-                        <h2>542,54</h2>
-                    </Item>
-                    <Item>
-                        <p>20/11</p>
-                        <h1>Salário</h1>
-                        <h3>3000,00</h3>
-                    </Item>
+                    ))
+                    }
+                  
+                    
                 </Lista>
-                <Total>
+                <Total saldo ={saldo}>
                     <h1>SALDO:</h1>
-                    <p>2.417,56</p>
+                    <p>{saldo.toFixed(2).replace(".", ",")}</p>
                 </Total>
             </Dados>
             <Footer>
@@ -107,6 +139,22 @@ const Dados = styled.div`
     padding: 4%;
 `;
 
+const SemRegistro= styled.div` 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 200px;
+    margin-left:170px;
+    font-size:20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    width:180px;
+
+    p{
+        color: #C6C6C6;
+    }
+`
+
 
 
 const Lista = styled.div`
@@ -117,7 +165,11 @@ const Lista = styled.div`
     font-size: 15px;
     font-family: 'Raleway', sans-serif;
     font-weight: 400;
-    
+
+    p{
+
+        color: #C6C6C6;
+    }
     
       
 `
@@ -134,7 +186,7 @@ const Item = styled.div`
         
     }
     h2{
-        color: red;
+        color:${props => props.type === "entrada" ? "#03AC00" : "#C70000"};
     }
     h3 {
         color: green;
@@ -155,7 +207,7 @@ const Total = styled.div`
     
     p{
         font-weight: 400;
-        color: green;
+        color: ${props => props.saldo > 0 ? "#03AC00" : "#C70000"};
     }
 
 `

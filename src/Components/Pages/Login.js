@@ -1,12 +1,9 @@
-// import axios from "axios";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from  'react-loader-spinner';
 import axios from "axios";
 import UserContext from "../../Contexts/UserContext";
 import { useContext, useState } from "react"
-
-
 
 
 
@@ -25,9 +22,10 @@ export default function Login () {
       
         const promise = axios.post(`${process.env.REACT_APP_API_URL}`, login)
         promise.then((res) => {
-            const { id, nome, token } = res.data
+            
             setLoading(false);
-            setUser({id, nome, token});
+            setUser(res.data)
+            
 
             navigate("/home");
         });
