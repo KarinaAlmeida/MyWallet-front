@@ -57,8 +57,8 @@ export default function Home() {
             <Dados>
                 <Lista>
                     {dinheiro.length=== 0 ? (<SemRegistro><p>Não há registros de entrada ou saída</p></SemRegistro>) :
-                    (dinheiro.map ((i) =>
-                      <Item type={i.type}>
+                    (dinheiro.map  ((i) =>
+                      <Item key={i._id}type={i.type}>
                         <p>{i.data}</p>
                         <h1>{i.descrição}</h1>
                         <h2>{i.valor.toFixed(2).replace(".", ",")}</h2>
