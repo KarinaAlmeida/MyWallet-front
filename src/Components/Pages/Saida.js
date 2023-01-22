@@ -22,7 +22,7 @@ export default function Saida () {
     console.log(user)
     const promise = axios.post(`${process.env.REACT_APP_API_URL}nova-saida`, body, config);
     promise.then((res) => {
-        alert ("DEU CERTO")
+        
         navigate("/home")            
     });
     promise.catch((erro) => alert("Opa! Deu bug, tente novamente!"));
