@@ -61,7 +61,7 @@ export default function Home() {
                       <Item key={i._id}type={i.type}>
                         <p>{i.data}</p>
                         <h1>{i.descrição}</h1>
-                        <h2>{i.valor.toFixed(2).replace(".", ",")}</h2>
+                        <h2>{i.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h2>
                     </Item>
                     ))
                     }
@@ -70,7 +70,7 @@ export default function Home() {
                 </Lista>
                 <Total saldo ={saldo}>
                     <h1>SALDO:</h1>
-                    <p>{saldo.toFixed(2).replace(".", ",")}</p>
+                    <p>{saldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
                 </Total>
             </Dados>
             <Footer>

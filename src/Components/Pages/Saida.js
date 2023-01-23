@@ -92,16 +92,16 @@ const Container = styled.div`
         font-size: 20px;
     }
    
-`;
+`
 
 const Titulo = styled.div`
-    width: 90%%;
+    width: 90%;
     margin:25px;
     color: #FFFFFF;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
     font-size: 28px;
-    display: ;
+
   
 `
 
